@@ -1,0 +1,100 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Todo List</title>
+</head>
+
+<body>
+
+    <style>
+        .askquestion {
+            position: absolute;
+            height: 100vh;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.473);
+            text-align: center;
+            color: white;
+        }
+    </style>
+    <div class="todo">
+
+
+        <div class="askquestion" :style="bindit">
+            <h1>are you sure you want to delete this todo</h1>
+            <button @click="pleaseDelete"> yes </button> <button @click="dontDelete"> No </button>
+        </div>
+
+
+
+
+        <input type="text" class="inputtodo" placholder=" add todo ...." v-model="newtodo">
+
+        <li v-for=" (one, i) in todos"> {{one}}<button @click="deleteTodo(i)">Delete</button> <button>Edit</button>
+        </li>
+
+        <button class="Submit" @click="addTodo"> SAVE</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        var app = new Vue({
+            el: '.todo',
+            data: {
+                todos: ["learn javascript", "learn jquery ", "learn nodejs "],
+                newtodo: "",
+                bindit: "display:none",
+                delete: false,
+                index: 0
+            },
+            methods: {
+                addTodo: function () {
+                     
+                    if (this.newtodo != "") {
+                        console.log(this.newtodo)
+
+                        this.todos.push(this.newtodo)
+
+                        this.newtodo = ''
+                    } else {
+                        alert("empty todo")
+                    }
+                },
+                deleteTodo: function(i) {
+
+                    if (this.delete === false) {
+
+                        this.index = i
+
+                        this.bindit = 'display:block'
+
+                    } else if (this.delete === true) {
+
+                        this.todos.splice(this.index, 1)
+
+                        this.bindit = 'display:none'
+
+                        this.delete = false
+                    }
+
+                },
+                pleaseDelete: function() {
+
+                    this.delete = true,
+                    this.deleteTodo(this.index)
+                    this.index = null
+
+                },
+                dontDelete: function(){
+                    this.bindit = 'display:none'
+                    this.index = null
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
